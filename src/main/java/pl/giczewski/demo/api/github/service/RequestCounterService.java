@@ -23,8 +23,8 @@ public class RequestCounterService {
         }
     }
 
-    private RequestCounter saveNewCouter(GitHubApiResponse gitHubApiResponse) {
-        return requestCounterRepository.save(
+    private void saveNewCouter(GitHubApiResponse gitHubApiResponse) {
+        requestCounterRepository.save(
                 RequestCounter.builder()
                         .requestCount(1)
                         .login(gitHubApiResponse.getLogin())

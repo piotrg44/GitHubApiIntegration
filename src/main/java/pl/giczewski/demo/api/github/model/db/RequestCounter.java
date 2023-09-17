@@ -32,7 +32,7 @@ public class RequestCounter {
     private long requestCount;
 
     public RequestCounter increaseCounter() {
-        requestCount++;
+        this.requestCount++;
         return this;
     }
 }

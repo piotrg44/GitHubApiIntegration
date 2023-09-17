@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pl.giczewski.demo.api.github.exception.NoSuchRequiredValuesFromGitHubApi;
+import pl.giczewski.demo.api.github.exception.NoSuchRequiredValuesFromGitHubApiException;
 import pl.giczewski.demo.api.github.model.dto.GitHubApiResponse;
 import pl.giczewski.demo.api.github.utils.TestVariables;
 
@@ -16,10 +16,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-class JsonToResponseGitHubApiMapperTest {
+class JsonMapperTest {
 
     @InjectMocks
-    private JsonToResponseGitHubApiMapper sut;
+    private JsonMapper sut;
 
     @Test
     void shouldBeMappedFromJsonObjectToApiResponse() {
@@ -27,7 +27,7 @@ class JsonToResponseGitHubApiMapperTest {
         JSONObject jsonObject = new JSONObject(createMapForJsonObject());
 
         //when
-        GitHubApiResponse gitHubApiResponse = sut.mapJsonObjectToResponse(jsonObject);
+        GitHubApiResponse gitHubApiResponse = sut.mapGitHubApiResponseJsonObjectToResponse(jsonObject);
 
         //then
         assertEquals(TestVariables.TEST_VALUE_ID, gitHubApiResponse.getId());
@@ -41,8 +41,8 @@ class JsonToResponseGitHubApiMapperTest {
 
     @Test
     void shouldThrowExceptionWhenIsNoValueInJsonFromApi() {
-        assertThrows(NoSuchRequiredValuesFromGitHubApi.class,
-                () -> sut.mapJsonObjectToResponse(new JSONObject(createMapForJsonObjectWithNoValueForOneKey()))
+        assertThrows(NoSuchRequiredValuesFromGitHubApiException.class,
+                () -> sut.mapGitHubApiResponseJsonObjectToResponse(new JSONObject(createMapForJsonObjectWithNoValueForOneKey()))
         );
     }
 

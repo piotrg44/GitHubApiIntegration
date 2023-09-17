@@ -4,14 +4,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
-import pl.giczewski.demo.api.github.exception.NoSuchRequiredValuesFromGitHubApi;
+import pl.giczewski.demo.api.github.exception.NoSuchRequiredValuesFromGitHubApiException;
 import pl.giczewski.demo.api.github.model.dto.GitHubApiResponse;
 
 @Component
 @Slf4j
-public class JsonToResponseGitHubApiMapper {
+public class JsonMapper {
 
-    public GitHubApiResponse mapJsonObjectToResponse(JSONObject gitHubApiResponseObject) {
+    public GitHubApiResponse mapGitHubApiResponseJsonObjectToResponse(JSONObject gitHubApiResponseObject) {
         try {
             return GitHubApiResponse.builder()
                     .id(Long.toString(gitHubApiResponseObject.getLong("id")))
@@ -24,7 +24,7 @@ public class JsonToResponseGitHubApiMapper {
                     .build();
         } catch (JSONException e) {
             log.error("Not such required json values in response", e);
-            throw new NoSuchRequiredValuesFromGitHubApi("One of the response values from GitHub API is not correct");
+            throw new NoSuchRequiredValuesFromGitHubApiException("One of the response values from GitHub API is not correct");
         }
     }
 
