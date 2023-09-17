@@ -1,0 +1,31 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="createRequestCounterTable" author="Piotr">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="request_counter"/>
+            </not>
+        </preConditions>
+        <!-- Create Counter table -->
+        <createTable tableName="request_counter">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="LOGIN" type="VARCHAR(100)"/>
+            <column name="REQUEST_COUNT" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="createRequestCounterOnLoginIndex" author="Piotr">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="request_counter"/>
+        </preConditions>
+        <!-- Create Counter table index-->
+        <createIndex indexName="request_counter_ix" tableName="request_counter">
+            <column name="LOGIN"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
